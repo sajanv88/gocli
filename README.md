@@ -31,6 +31,14 @@ scoop bucket add sajanv88 https://github.com/sajanv88/scoop-bucket
 scoop install gocli
 ```
 
+**Linux**
+```bash
+curl -LO https://github.com/sajanv88/gocli/releases/latest/download/gocli_0.1.0_linux_amd64.tar.gz
+tar xzf gocli_0.1.0_linux_amd64.tar.gz
+sudo mv gocli /usr/local/bin/
+```
+
+
 **Anywhere with Go installed**
 ```bash
 go install github.com/sajanv88/gocli@latest
