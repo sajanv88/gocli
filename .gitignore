@@ -1,0 +1,47 @@
+# Binaries
+gocli
+gocli.exe
+/bin/
+/dist/                  # goreleaser build output
+
+# Go build/test artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go workspace / module cache (local only, never commit)
+go.work
+go.work.sum
+
+# Dependency directories (uncomment only if you vendor deps)
+# vendor/
+
+# Env files (never commit secrets or local overrides)
+.env
+.env.local
+
+# IntelliJ / GoLand
+.idea/
+*.iml
+out/
+
+# VS Code (in case you switch machines)
+.vscode/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local scratch — output of manually testing `gocli new` from the repo root
+/playground/
+/tmp/
+
+# GoReleaser local snapshot artifacts
+*.goreleaser.snapshot/
