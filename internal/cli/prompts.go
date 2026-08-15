@@ -5,6 +5,16 @@ import (
 	"github.com/sajanv88/gocli/internal/domain"
 )
 
+func confirmInstallDeps() (bool, error) {
+	var install bool
+	err := huh.NewConfirm().Title("Install frontend dependencies now?").
+		Affirmative("Yes").
+		Negative("No").
+		Value(&install).
+		Run()
+	return install, err
+}
+
 func resolveSpec(spec domain.ProjectSpec) (domain.ProjectSpec, error) {
 	var fields []huh.Field
 	if spec.Name == "" {

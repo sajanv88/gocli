@@ -22,6 +22,6 @@ func (NextGenerator) Generate(spec domain.ProjectSpec) error {
 
 	return infra.Run(spec.OutputDir, "npx", "create-next-app@latest",
 		"frontend", "--ts", "--tailwind", "--eslint", "--app", "--src-dir",
-		"--import-alias", "@/*", pmFlag, "--disable-git", "--yes",
+		"--import-alias", "@/*", pmFlag, "--disable-git", "--skip-install", "--yes",
 	)
 }
