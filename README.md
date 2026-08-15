@@ -6,7 +6,7 @@ A command-line tool that scaffolds a working Go backend, wires up a database, an
 
 Every time I started a new Go service I did the same five things: run `go mod init`, wire up a router, hand-write a docker-compose file for whatever database I picked that week, remember the right flags for `create-next-app`, and write a `.gitignore` I'd copy from the last project. None of it was hard. All of it was the same fifteen minutes, over and over, before I got to write a single line of actual application code.
 
-gocli does that fifteen minutes for you. Pick a router, a database, a frontend, and it builds the whole thing: connection code, a docker-compose file, an env example, a README specific to what you picked, and, if you want it, a Dockerfile. The frontend is scaffolded by calling Vite's and Next.js's own official CLIs directly, not by reimplementing them, so you get exactly what those tools would have given you anyway.
+gocli does that in under a minute for you. Pick a router, a database, a frontend, and it builds the whole thing: connection code, a docker-compose file, an env example, a README specific to what you picked, and, if you want it, a Dockerfile. The frontend is scaffolded by calling Vite's and Next.js's own official CLIs directly, not by reimplementing them, so you get exactly what those tools would have given you anyway.
 
 ## What you get
 
