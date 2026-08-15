@@ -1,0 +1,70 @@
+version: 2
+project_name: gocli
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: gocli
+    main: .
+    binary: gocli
+    env:
+      - CGO_ENABLED=0
+    goos: [linux, darwin, windows]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w
+      - -X github.com/sajanv88/gocli/internal/cli.Version={{.Version}}
+      - -X github.com/sajanv88/gocli/internal/cli.Commit={{.Commit}}
+      - -X github.com/sajanv88/gocli/internal/cli.Date={{.CommitDate}}
+
+archives:
+  - id: gocli-archive
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - LICENSE
+
+checksum:
+  name_template: "checksums.txt"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+
+release:
+  github:
+    owner: sajanv88
+    name: gocli
+  prerelease: auto
+
+brews:
+  - repository:
+      owner: sajanv88
+      name: homebrew-tap
+      token: "{{ .Env.GH_PAT }}"
+    directory: Formula
+    homepage: "https://github.com/sajanv88/gocli"
+    description: "Scaffold a Go backend (Gin/Chi), database, and frontend in one command"
+    license: "MIT"
+    test: |
+      system "#{bin}/gocli", "--version"
+    install: |
+      bin.install "gocli"
+
+scoops:
+  - repository:
+      owner: sajanv88
+      name: scoop-bucket
+      token: "{{ .Env.GH_PAT }}"
+    homepage: "https://github.com/sajanv88/gocli"
+    description: "Scaffold a Go backend (Gin/Chi), database, and frontend in one command"
+    license: "MIT"
