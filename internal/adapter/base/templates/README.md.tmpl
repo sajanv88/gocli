@@ -28,6 +28,22 @@ This project uses **{{.Database}}**. Copy the example env file first:
 cp .env.example .env
 ```
 
+{{if .Docker}}
+### Docker
+
+```bash
+docker build -t {{.Name}} .
+docker run --rm -p 8080:8080{{if ne .Database "none"}} --env-file .env{{end}} {{.Name}}
+```
+{{if ne .Database "none"}}
+Or bring up the backend + {{.Database}} together:
+
+```bash
+docker compose up --build
+```
+{{end}}
+{{end}}
+
 Then start it with Docker Compose:
 
 ```bash

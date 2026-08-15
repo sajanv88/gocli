@@ -2,6 +2,7 @@ package app
 
 import (
 	"github.com/sajanv88/gocli/internal/adapter/base"
+	"github.com/sajanv88/gocli/internal/adapter/docker"
 	"github.com/sajanv88/gocli/internal/domain"
 	"github.com/sajanv88/gocli/internal/infra"
 )
@@ -27,6 +28,12 @@ func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
 
 	if err := base.Generate(spec); err != nil {
 		return err
+	}
+
+	if spec.Docker {
+		if err := docker.Generate(spec); err != nil {
+			return err
+		}
 	}
 
 	if spec.Router != "none" {

@@ -37,6 +37,7 @@ type ProjectSpec struct {
 	Frontend   FrontendOption
 	OutputDir  string
 	Force      bool
+	Docker     bool
 }
 
 func (r *RouterOption) String() string { return string(*r) }
