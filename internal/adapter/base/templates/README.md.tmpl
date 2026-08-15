@@ -1,0 +1,50 @@
+# {{.Name}}
+
+Scaffolded with [gocli](https://github.com/sajanv88/gocli).
+
+**Module:** `{{.ModulePath}}`
+{{if ne .Router "none"}}**Router:** {{.Router}}
+{{end}}{{if ne .Database "none"}}**Database:** {{.Database}}
+{{end}}{{if ne .Frontend "none"}}**Frontend:** {{.Frontend}}
+{{end}}
+## Getting started
+
+### Backend
+{{if ne .Router "none"}}
+```bash
+go run .
+```
+
+Server listens on `:8080` — check `GET /health` once it's running.
+{{else}}
+No router was selected — this module has no HTTP entry point yet.
+{{end}}
+{{if ne .Database "none"}}
+### Database
+
+This project uses **{{.Database}}**. Copy the example env file first:
+
+```bash
+cp .env.example .env
+```
+
+Then start it with Docker Compose:
+
+```bash
+docker compose up -d {{.Database}}
+```
+
+Connection setup lives in `db/{{.Database}}.go`, read from the `DATABASE_URL` environment variable.
+{{end}}
+{{if ne .Frontend "none"}}
+### Frontend
+
+`frontend/` was scaffolded with **{{.Frontend}}**.
+
+```bash
+cd frontend
+npm install   # or: pnpm install
+npm run dev   # or: pnpm dev
+```
+{{end}}
+## Project structure

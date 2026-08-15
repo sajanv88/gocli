@@ -1,0 +1,46 @@
+# Binaries
+/{{.Name}}
+/{{.Name}}.exe
+/bin/
+
+# Go build/test artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Go workspace files (local only)
+go.work
+go.work.sum
+
+# Env files — never commit secrets
+.env
+.env.local
+!.env.example
+
+# IntelliJ / GoLand
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+{{if ne .Frontend "none"}}
+# Frontend ({{.Frontend}})
+frontend/node_modules/
+frontend/dist/
+frontend/.next/
+frontend/build/
+frontend/.turbo/
+frontend/*.local
+{{end}}

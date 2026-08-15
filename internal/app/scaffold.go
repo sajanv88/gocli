@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/sajanv88/gocli/internal/adapter/base"
 	"github.com/sajanv88/gocli/internal/domain"
 	"github.com/sajanv88/gocli/internal/infra"
 )
@@ -21,6 +22,10 @@ func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
 	}
 
 	if err := infra.InitGoModule(spec.OutputDir, spec.ModulePath); err != nil {
+		return err
+	}
+
+	if err := base.Generate(spec); err != nil {
 		return err
 	}
 
