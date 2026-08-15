@@ -1,0 +1,33 @@
+package db
+
+import (
+	"database/sql"
+	"fmt"
+	"os"
+	"time"
+
+	_ "github.com/go-sql-driver/mysql"
+)
+
+// NewMySQLPool opens a database/sql pool using DATABASE_URL from the
+// environment (see .env.example). Call Close() on shutdown.
+func NewMySQLPool() (*sql.DB, error) {
+	dsn := os.Getenv("DATABASE_URL")
+	if dsn == "" {
+		return nil, fmt.Errorf("DATABASE_URL is not set")
+	}
+
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		return nil, fmt.Errorf("opening mysql connection: %w", err)
+	}
+	db.SetMaxOpenConns(10)
+	db.SetMaxIdleConns(5)
+	db.SetConnMaxLifetime(30 * time.Minute)
+
+	if err := db.Ping(); err != nil {
+		db.Close()
+		return nil, fmt.Errorf("pinging mysql: %w", err)
+	}
+	return db, nil
+}

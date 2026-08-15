@@ -1,0 +1,33 @@
+package db
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"time"
+
+	"github.com/redis/go-redis/v9"
+)
+
+// NewRedisClient connects to Redis using REDIS_URL from the environment
+// (see .env.example). Call Close() on shutdown.
+func NewRedisClient(ctx context.Context) (*redis.Client, error) {
+	url := os.Getenv("REDIS_URL")
+	if url == "" {
+		return nil, fmt.Errorf("REDIS_URL is not set")
+	}
+
+	opts, err := redis.ParseURL(url)
+	if err != nil {
+		return nil, fmt.Errorf("parsing REDIS_URL: %w", err)
+	}
+	client := redis.NewClient(opts)
+
+	pingCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+	if err := client.Ping(pingCtx).Err(); err != nil {
+		_ = client.Close()
+		return nil, fmt.Errorf("pinging redis: %w", err)
+	}
+	return client, nil
+}
