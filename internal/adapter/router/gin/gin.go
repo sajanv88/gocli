@@ -1,4 +1,4 @@
-package router
+package gin
 
 import (
 	"embed"
@@ -10,10 +10,10 @@ import (
 //go:embed templates/*.tmpl
 var ginTemplates embed.FS
 
-type GinGenerator struct{}
+type Generator struct{}
 
-func (GinGenerator) Name() string { return "gin" }
+func (Generator) Name() domain.RouterOption { return domain.RouterGin }
 
-func (GinGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	return infra.CopyTemplateFS(ginTemplates, "templates", spec.OutputDir, spec)
 }

@@ -1,4 +1,4 @@
-package db
+package postgres
 
 import (
 	"embed"
@@ -7,14 +7,14 @@ import (
 	"github.com/sajanv88/gocli/internal/infra"
 )
 
-//go:embed templates/*.tmpl
+//go:embed all:templates
 var pgTemplates embed.FS
 
-type PostgresGenerator struct{}
+type Generator struct{}
 
-func (PostgresGenerator) Name() string { return "postgres" }
+func (Generator) Name() domain.DatabaseOption { return domain.DBPostgres }
 
-func (PostgresGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	// writes db/postgres.go (pgx pool), .env.example with DATABASE_URL,
 	// and a postgres block into docker-compose.yml
 	return infra.CopyTemplateFS(pgTemplates, "templates", spec.OutputDir, spec)

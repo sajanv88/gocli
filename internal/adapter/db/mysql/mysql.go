@@ -1,4 +1,4 @@
-package db
+package mysql
 
 import (
 	"embed"
@@ -7,14 +7,14 @@ import (
 	"github.com/sajanv88/gocli/internal/infra"
 )
 
-//go:embed templates/*.tmpl
+//go:embed all:templates
 var mysqlTemplates embed.FS
 
-type MySQLGenerator struct{}
+type Generator struct{}
 
-func (MySQLGenerator) Name() string { return "mysql" }
+func (Generator) Name() domain.DatabaseOption { return domain.DBMySQL }
 
-func (MySQLGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	// writes db/mysql.go, .env.example with DATABASE_URL,
 	// and a mysql block into docker-compose.yml
 	return infra.CopyTemplateFS(mysqlTemplates, "templates", spec.OutputDir, spec)

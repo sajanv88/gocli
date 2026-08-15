@@ -7,11 +7,21 @@ import (
 
 type ViteGenerator struct{}
 
-func (ViteGenerator) Name() string { return "vite" }
+func (ViteGenerator) Name() domain.FrontendOption { return domain.FrontendVite }
 
 func (ViteGenerator) Generate(spec domain.ProjectSpec) error {
-	if err := infra.CheckToolAvailable("npm", "Node 20.19+/22.12+"); err != nil {
+	pm, err := infra.ResolveNodePackageManager()
+
+	if err != nil {
 		return err
+	}
+
+	if pm == "pnpm" {
+		return infra.Run(spec.OutputDir, "pnpm", "create", "vite",
+			"frontend",
+			"--template", "react-ts",
+			"--no-interactive",
+		)
 	}
 
 	return infra.Run(spec.OutputDir, "npm", "create", "vite@latest",

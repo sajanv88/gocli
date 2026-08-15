@@ -1,4 +1,4 @@
-package db
+package redis
 
 import (
 	"embed"
@@ -7,13 +7,13 @@ import (
 	"github.com/sajanv88/gocli/internal/infra"
 )
 
-//go:embed templates/*.tmpl
+//go:embed all:templates
 var redisTemplates embed.FS
 
-type RedisGenerator struct{}
+type Generator struct{}
 
-func (RedisGenerator) Name() string { return "redis" }
+func (Generator) Name() domain.DatabaseOption { return domain.DBRedis }
 
-func (RedisGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	return infra.CopyTemplateFS(redisTemplates, "templates", spec.OutputDir, spec)
 }

@@ -16,6 +16,10 @@ func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
 		return err
 	}
 
+	if err := infra.EnsureCleanOutputDir(spec.OutputDir, spec.Force); err != nil {
+		return err
+	}
+
 	if err := infra.InitGoModule(spec.OutputDir, spec.ModulePath); err != nil {
 		return err
 	}
@@ -44,6 +48,9 @@ func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
 		}
 	}
 
+	if err := infra.Run(spec.OutputDir, "go", "mod", "tidy"); err != nil {
+		return err
+	}
 	return infra.Run(spec.OutputDir, "git", "init")
 
 }

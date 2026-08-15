@@ -1,16 +1,16 @@
 package domain
 
 type RouterGenerator interface {
-	Name() string
+	Name() RouterOption
 	Generate(spec ProjectSpec) error
 }
 
 type DBGenerator interface {
-	Name() string
+	Name() DatabaseOption
 	Generate(spec ProjectSpec) error
 }
 
 type FrontendGenerator interface {
-	Name() string
+	Name() FrontendOption
 	Generate(spec ProjectSpec) error
 }

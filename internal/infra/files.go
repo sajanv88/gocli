@@ -2,6 +2,7 @@ package infra
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
 	"io/fs"
 	"os"
@@ -11,6 +12,23 @@ import (
 
 func EnsureDir(dir string) error {
 	return os.MkdirAll(dir, 0755)
+}
+
+func EnsureCleanOutputDir(dir string, force bool) error {
+	entries, err := os.ReadDir(dir)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil // fresh directory, nothing to do
+		}
+		return err
+	}
+	if len(entries) == 0 {
+		return nil
+	}
+	if !force {
+		return fmt.Errorf("%s already exists and is not empty — use --force to overwrite, or pick a different name", dir)
+	}
+	return os.RemoveAll(dir)
 }
 
 func CopyTemplateFS(fsys embed.FS, root, outDir string, data any) error {
@@ -37,7 +55,7 @@ func CopyTemplateFS(fsys embed.FS, root, outDir string, data any) error {
 				panic(err)
 			}
 		}(f)
-		
+
 		tmpl := template.Must(template.New(d.Name()).Parse(string(content)))
 		return tmpl.Execute(f, data)
 	})

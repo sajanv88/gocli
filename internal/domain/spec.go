@@ -36,6 +36,7 @@ type ProjectSpec struct {
 	Database   DatabaseOption
 	Frontend   FrontendOption
 	OutputDir  string
+	Force      bool
 }
 
 func (r *RouterOption) String() string { return string(*r) }

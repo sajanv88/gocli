@@ -7,14 +7,21 @@ import (
 
 type NextGenerator struct{}
 
-func (NextGenerator) Name() string { return "nextjs" }
+func (NextGenerator) Name() domain.FrontendOption { return domain.FrontendNextJS }
 
 func (NextGenerator) Generate(spec domain.ProjectSpec) error {
-	if err := infra.CheckToolAvailable("npx", "Node 20.9+"); err != nil {
+	pm, err := infra.ResolveNodePackageManager()
+	if err != nil {
 		return err
 	}
+
+	pmFlag := "--use-npm"
+	if pm == "pnpm" {
+		pmFlag = "--use-pnpm"
+	}
+
 	return infra.Run(spec.OutputDir, "npx", "create-next-app@latest",
 		"frontend", "--ts", "--tailwind", "--eslint", "--app", "--src-dir",
-		"--import-alias", "@/*", "--use-npm", "--disable-git", "--yes",
+		"--import-alias", "@/*", pmFlag, "--disable-git", "--yes",
 	)
 }

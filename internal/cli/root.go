@@ -39,5 +39,6 @@ func NewCmd() *cobra.Command {
 	cmd.Flags().Var(&spec.Router, "router", "gin | chi | none")
 	cmd.Flags().Var(&spec.Database, "db", "postgres | mysql | mongodb | redis | none")
 	cmd.Flags().Var(&spec.Frontend, "frontend", "vite | nextjs | none")
+	cmd.Flags().BoolVar(&spec.Force, "force", false, "overwrite an existing non-empty output directory")
 	return cmd
 }

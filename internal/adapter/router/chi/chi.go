@@ -1,4 +1,4 @@
-package router
+package chi
 
 import (
 	"embed"
@@ -10,10 +10,10 @@ import (
 //go:embed templates/*.tmpl
 var chiTemplates embed.FS
 
-type ChiGenerator struct{}
+type Generator struct{}
 
-func (ChiGenerator) Name() string { return "chi" }
+func (Generator) Name() domain.RouterOption { return domain.RouterChi }
 
-func (ChiGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	return infra.CopyTemplateFS(chiTemplates, "templates", spec.OutputDir, spec)
 }

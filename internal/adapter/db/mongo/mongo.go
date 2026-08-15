@@ -1,4 +1,4 @@
-package db
+package mongo
 
 import (
 	"embed"
@@ -7,13 +7,13 @@ import (
 	"github.com/sajanv88/gocli/internal/infra"
 )
 
-//go:embed templates/*.tmpl
+//go:embed all:templates
 var mongoTemplates embed.FS
 
-type MongoGenerator struct{}
+type Generator struct{}
 
-func (MongoGenerator) Name() string { return "mongo" }
+func (Generator) Name() domain.DatabaseOption { return domain.DBMongoDB }
 
-func (MongoGenerator) Generate(spec domain.ProjectSpec) error {
+func (Generator) Generate(spec domain.ProjectSpec) error {
 	return infra.CopyTemplateFS(mongoTemplates, "templates", spec.OutputDir, spec)
 }
