@@ -77,6 +77,27 @@ gocli new myapp \
 
 Every flag you pass skips the matching prompt, so this runs fine in CI without ever hitting an interactive form.
 
+{{if ne .Agent "none"}}
+### AI agent ({{.Agent}})
+
+```bash
+cp agent/.env.example agent/.env
+# add your Gemini API key from https://aistudio.google.com/app/apikey
+```
+
+```bash
+source agent/.env   # or agent\env.bat on Windows
+go run ./agent
+```
+
+Or with the interactive web UI:
+
+```bash
+go run ./agent web api webui
+```
+{{end}}
+
+
 ## What it's built on
 
 gocli follows the same hexagonal architecture I use for actual production services: a domain layer that has no idea Cobra, os/exec, or embed.FS exist, a use case that orchestrates the whole scaffold, and one small adapter per router, database, and frontend option. Adding a fifth database means writing one new file and adding one line to a registry map. Nothing else in the codebase has to change.
@@ -87,6 +108,7 @@ gocli follows the same hexagonal architecture I use for actual production servic
 - More routers (Fiber, Echo) and more databases if there's demand for them
 - A `gocli list` command to print what's available without digging through `--help`
 - Config file support, so a team can check in their preferred defaults instead of typing the same flags every time
+
 
 None of these are promises, just what I'd reach for next. If one of them would actually solve a problem you have, open an issue and say so. That moves it up the list faster than me guessing.
 

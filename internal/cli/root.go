@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"path/filepath"
 
+	"github.com/sajanv88/gocli/internal/adapter/agent"
 	"github.com/sajanv88/gocli/internal/adapter/db"
 	"github.com/sajanv88/gocli/internal/adapter/frontend"
 	"github.com/sajanv88/gocli/internal/adapter/router"
@@ -35,7 +36,9 @@ func NewCmd() *cobra.Command {
 				Routers:   router.All(),
 				DBs:       db.All(),
 				Frontends: frontend.All(),
+				Agents:    agent.All(),
 			}
+
 			if err := uc.Execute(resolved); err != nil {
 				return err
 			}
@@ -70,6 +73,7 @@ func NewCmd() *cobra.Command {
 	cmd.Flags().Var(&spec.Router, "router", "gin | chi | none")
 	cmd.Flags().Var(&spec.Database, "db", "postgres | mysql | mongodb | redis | none")
 	cmd.Flags().Var(&spec.Frontend, "frontend", "vite | nextjs | none")
+	cmd.Flags().Var(&spec.Agent, "agent", "adk | none")
 	cmd.Flags().BoolVar(&spec.Force, "force", false, "overwrite an existing non-empty output directory")
 	cmd.Flags().BoolVar(&spec.Docker, "docker", false, "generate a multi-stage Dockerfile and .dockerignore for the backend")
 	cmd.Flags().BoolVar(&installDeps, "install-deps", false, "install frontend dependencies after scaffolding (skips the prompt)")

@@ -11,6 +11,7 @@ type ScaffoldUseCase struct {
 	Routers   map[domain.RouterOption]domain.RouterGenerator
 	DBs       map[domain.DatabaseOption]domain.DBGenerator
 	Frontends map[domain.FrontendOption]domain.FrontendGenerator
+	Agents    map[domain.AgentOption]domain.AgentGenerator
 }
 
 func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
@@ -54,6 +55,14 @@ func (u ScaffoldUseCase) Execute(spec domain.ProjectSpec) error {
 
 	if spec.Frontend != "none" {
 		if gen, ok := u.Frontends[spec.Frontend]; ok {
+			if err := gen.Generate(spec); err != nil {
+				return err
+			}
+		}
+	}
+
+	if spec.Agent != domain.AgentNone {
+		if gen, ok := u.Agents[spec.Agent]; ok {
 			if err := gen.Generate(spec); err != nil {
 				return err
 			}
