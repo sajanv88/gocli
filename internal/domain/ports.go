@@ -14,3 +14,8 @@ type FrontendGenerator interface {
 	Name() FrontendOption
 	Generate(spec ProjectSpec) error
 }
+
+type BackendGenerator interface {
+	Name() AgentOption
+	Generate(spec ProjectSpec) error
+}

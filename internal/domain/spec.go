@@ -9,6 +9,8 @@ type RouterOption string
 type DatabaseOption string
 type FrontendOption string
 
+type AgentOption string
+
 const (
 	RouterGin  RouterOption = "gin"
 	RouterChi  RouterOption = "chi"
@@ -29,6 +31,11 @@ const (
 	FrontendNone   FrontendOption = "none"
 )
 
+const (
+	AgentADK  AgentOption = "adk"
+	AgentNone AgentOption = "none"
+)
+
 type ProjectSpec struct {
 	Name       string
 	ModulePath string
@@ -38,6 +45,7 @@ type ProjectSpec struct {
 	OutputDir  string
 	Force      bool
 	Docker     bool
+	Agent      AgentOption
 }
 
 func (r *RouterOption) String() string { return string(*r) }
@@ -81,6 +89,20 @@ func (f *FrontendOption) Set(s string) error {
 }
 
 func (f *FrontendOption) Type() string { return "frontend" }
+
+func (a *AgentOption) String() string { return string(*a) }
+
+func (a *AgentOption) Set(s string) error {
+	switch AgentOption(s) {
+	case AgentADK, AgentNone:
+		*a = AgentOption(s)
+		return nil
+	default:
+		return fmt.Errorf("invalid agent %q: must be one of adk, none", s)
+	}
+}
+
+func (a *AgentOption) Type() string { return "agent" }
 
 func (s ProjectSpec) Validate() error {
 
