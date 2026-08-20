@@ -38,6 +38,7 @@ cp agent/.env.example agent/.env
 ```bash
 source agent/.env && go run ./agent
 ```
+{{end}}
 
 {{if eq .Agent "eino"}}
 ### AI agent (Eino)
@@ -46,7 +47,7 @@ source agent/.env && go run ./agent
 cp agent/.env.example agent/.env
 # add your OpenAI-compatible API key
 ```
-
+{{end}}
 
 {{if .Docker}}
 ### Docker
