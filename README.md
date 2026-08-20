@@ -65,15 +65,16 @@ gocli new myapp \
   --docker
 ```
 
-| Flag | Values | Default |
-|---|---|---|
-| `--module` | any Go module path | required |
-| `--router` | `gin`, `chi`, `none` | prompted |
-| `--db` | `postgres`, `mysql`, `mongodb`, `redis`, `none` | prompted |
-| `--frontend` | `vite`, `nextjs`, `none` | prompted |
-| `--docker` | flag | off |
-| `--force` | flag | off, overwrites an existing directory |
-| `--install-deps` | flag | prompted if a frontend was generated |
+| Flag             | Values                                          | Default |
+|------------------|-------------------------------------------------|---|
+| `--module`       | any Go module path                              | required |
+| `--router`       | `gin`, `chi`, `none`                            | prompted |
+| `--db`           | `postgres`, `mysql`, `mongodb`, `redis`, `none` | prompted |
+| `--frontend`     | `vite`, `nextjs`, `none`                        | prompted |
+| `--agent`        | `adk`, `eino`, `none`                           | prompted |
+| `--docker`       | flag                                            | off |
+| `--force`        | flag                                            | off, overwrites an existing directory |
+| `--install-deps` | flag                                            | prompted if a frontend was generated |
 
 Every flag you pass skips the matching prompt, so this runs fine in CI without ever hitting an interactive form.
 
