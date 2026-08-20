@@ -34,6 +34,7 @@ const (
 const (
 	AgentADK  AgentOption = "adk"
 	AgentNone AgentOption = "none"
+	AgentEino AgentOption = "eino"
 )
 
 type ProjectSpec struct {
@@ -94,7 +95,7 @@ func (a *AgentOption) String() string { return string(*a) }
 
 func (a *AgentOption) Set(s string) error {
 	switch AgentOption(s) {
-	case AgentADK, AgentNone:
+	case AgentADK, AgentEino, AgentNone:
 		*a = AgentOption(s)
 		return nil
 	default:

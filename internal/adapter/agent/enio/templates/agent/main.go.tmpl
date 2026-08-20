@@ -1,0 +1,40 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"os"
+
+	"github.com/cloudwego/eino-ext/components/model/openai"
+	"github.com/cloudwego/eino/adk"
+)
+
+func main() {
+	ctx := context.Background()
+
+	chatModel, err := openai.NewChatModel(ctx, &openai.ChatModelConfig{
+		Model:  "gpt-4o",
+		APIKey: os.Getenv("OPENAI_API_KEY"),
+	})
+	if err != nil {
+		log.Fatalf("failed to create chat model: %v", err)
+	}
+
+	rootAgent, err := adk.NewChatModelAgent(ctx, &adk.ChatModelAgentConfig{
+		Model: chatModel,
+	})
+	if err != nil {
+		log.Fatalf("failed to create agent: %v", err)
+	}
+
+	runner := adk.NewRunner(ctx, adk.RunnerConfig{Agent: rootAgent})
+	iter := runner.Query(ctx, "Hello! Introduce yourself for {{.Name}}.")
+	for {
+		event, ok := iter.Next()
+		if !ok {
+			break
+		}
+		fmt.Println(event.Message.Content)
+	}
+}
