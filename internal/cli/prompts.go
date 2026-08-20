@@ -44,6 +44,14 @@ func resolveSpec(spec domain.ProjectSpec) (domain.ProjectSpec, error) {
 			).Value(&spec.Frontend))
 	}
 
+	if spec.Agent == "" {
+		fields = append(fields, huh.NewSelect[domain.AgentOption]().Title("AI Agent").
+			Options(huh.NewOption("Google ADK", domain.AgentADK),
+				huh.NewOption("Eino (CloudWeGo)", domain.AgentEino),
+				huh.NewOption("None", domain.AgentNone),
+			).Value(&spec.Agent))
+	}
+
 	if len(fields) == 0 {
 		return spec, nil // every flag was supplied. Fully non-interactive run
 	}

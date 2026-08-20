@@ -45,3 +45,9 @@ desktop.ini
 
 # GoReleaser local snapshot artifacts
 *.goreleaser.snapshot/
+
+
+{{if ne .Agent "none"}}
+# AI agent ({{.Agent}})
+agent/.env
+{{end}}

@@ -28,6 +28,27 @@ This project uses **{{.Database}}**. Copy the example env file first:
 cp .env.example .env
 ```
 
+{{if eq .Agent "adk"}}
+### AI agent (Google ADK)
+
+```bash
+cp agent/.env.example agent/.env
+# add your Gemini API key from https://aistudio.google.com/app/apikey
+```
+```bash
+source agent/.env && go run ./agent
+```
+{{end}}
+
+{{if eq .Agent "eino"}}
+### AI agent (Eino)
+
+```bash
+cp agent/.env.example agent/.env
+# add your OpenAI-compatible API key
+```
+{{end}}
+
 {{if .Docker}}
 ### Docker
 
